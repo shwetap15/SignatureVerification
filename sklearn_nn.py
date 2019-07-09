@@ -10,7 +10,7 @@ import cv2
 import pandas as pd
 
 from skimage.measure import compare_ssim
-from skimage.measure import structural_similarity as ssim
+#from skimage.measure import structural_similarity as ssim
 from sklearn.neural_network import MLPClassifier
 
 import imagehash
@@ -65,27 +65,27 @@ for i in range(X.shape[0]):
     gray_img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     #gray_img = cv2.resize(gray_img,(28,28))
     X[i,4] = gray_img
-    
-#comparison images    
+
+#comparison images
 for i in range(X.shape[0]):
     img = cv2.imread(X[i,1])
     #print(img)
-    img = cv2.resize(img,(28,28)) 
+    img = cv2.resize(img,(28,28))
     gray_img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     #gray_img = cv2.resize(gray_img,(128,128))
     X[i,5] = gray_img
-    
+
 for i in range(X.shape[0]):
     #SSIM values
     (score, diff) = compare_ssim(X[i,4], X[i,5], full=True)
     X[i,2] = score
-    
+
     #MSE values
     X[i,3] = mse(X[i,4], X[i,5])
-    
+
     X[i,6] = X[i,4].flatten().tolist()
     X[i,7] = X[i,5].flatten().tolist()
-    
+
     #X[i,1] = X[i,1].flatten()
 #print(X)
 
@@ -101,7 +101,7 @@ for i in range(X.shape[0]):
     #append_lst.append()
     append_lst = [X[i,2]] + [X[i,3]] + X[i,6] + X[i,7]
     x_input.append(append_lst)
-    
+
 #print(x_input)
 
 
@@ -126,9 +126,9 @@ pickle.dump(clf, open(filename, 'wb'))
 
 test_img1 = "data/train/068/09_068.png"
 #test_img2 = "data/train/068/09_068.png"
-test_img2 = "data/train/068_forg/02_0113068.PNG"
+test_img2 = "data/train/068/02_068.png"
 
-'''test_img1 = "data/test/066/08_066.png" 
+'''test_img1 = "data/test/066/08_066.png"
 test_img2 = "data/test/066_forg/04_0211066.PNG"'''
 
 
@@ -158,7 +158,7 @@ clf.predict(test_x)
 
 loaded_model = pickle.load(open(filename, 'rb'))
 
-test_img1 = "data/test/066/08_066.png" 
+test_img1 = "data/test/066/08_066.png"
 test_img2 = "data/test/066_forg/04_0211066.PNG"
 
 
@@ -180,4 +180,3 @@ im2 = test_img2.flatten().tolist()
 test_x = []
 test_x.append([score]+[rmse]+im1+im2)
 loaded_model.predict(test_x)
-

@@ -39,8 +39,8 @@ def mse(imageA, imageB):
 filename = 'trained_model.sav'
 loaded_model = pickle.load(open(filename, 'rb'))
 
-test_img1 = "data/test/066/08_066.png" 
-#test_img2 = "data/test/066/03_066.png" 
+test_img1 = "data/test/066/08_066.png"
+#test_img2 = "data/test/066/03_066.png"
 test_img2 = "data/test/066_forg/03_0101066.PNG"
 
 
@@ -63,4 +63,3 @@ test_x = []
 test_x.append([score]+[rmse]+im1+im2)
 predicted_res = loaded_model.predict(test_x)
 print(predicted_res)
-
